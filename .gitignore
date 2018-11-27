@@ -1,11 +1,12 @@
 
+logs/*
 *.h5
 ncsmodel_old/*
 *.data-.*
-.*ckpt.meta
-.*ckpt.meta
-.*.pb
-.*graph
+*ckpt.meta
+*ckpt.meta
+*.pb
+*graph
 graph
 frozen.pb
 checkpoint
@@ -15,4 +16,8 @@ videos/*
 h5files/*
 __pycache__/*
 model_coco_person_map1.47/*
+*.npy
+*.csv
+*.txt
+*.zip
 

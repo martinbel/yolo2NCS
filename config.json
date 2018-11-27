@@ -1,0 +1,56 @@
+{
+    "model" : {
+        "backend":              "Super Tiny Yolo",
+        "input_size_w":         256,
+        "input_size_h":         256,
+        "gray_mode":            true,
+        "anchors":              [1,1, 2,5, 6,15],
+        "max_box_per_image":    10,
+        "labels":               ["person"]
+    },
+
+    "parser_annotation_type":    "xml",
+
+    "train": {
+        "train_csv_file":       "",
+        "train_csv_base_path":  "",
+        "train_image_folder":   "/mnt/yolo_retrain/coco/person/",
+        "train_annot_folder":   "/mnt/yolo_retrain/coco/annon_person/",
+
+        "train_times":          1,
+        "pretrained_weights":   "ncs_smallmdl/openimages_best4.h5",
+        "batch_size":           16,
+        "learning_rate":        1e-4,
+        "nb_epochs":            500,
+        "warmup_epochs":        0,
+
+        "workers":              3,
+        "max_queue_size":       200,
+        "early_stop":           true,
+        "tensorboard_log_dir":  "logs/",
+
+        "object_scale":         5.0,
+        "no_object_scale":      1.0,
+        "coord_scale":          1.0,
+        "class_scale":          1.0,
+
+        "saved_weights_name":   "openimages.h5",
+        "debug":                false
+    },
+
+    "valid": {
+        "valid_csv_file":       "",
+        "valid_csv_base_path":  "",
+        "valid_image_folder":   "",
+        "valid_annot_folder":   "",
+
+        "valid_times":          1
+    },
+
+    "backup":{
+        "create_backup":        false,
+        "redirect_model":       false,
+        "backup_path":          "../backup",
+        "backup_prefix":        "Tiny_yolo_VOC"
+    }
+}
