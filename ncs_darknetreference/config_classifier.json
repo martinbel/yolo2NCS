@@ -1,0 +1,27 @@
+{
+    "model" : {
+        "backend":              "Darknet Reference",
+        "input_size_w":         256,
+        "input_size_h":         256,
+        "gray_mode":            true
+    },
+    "train": {
+        "pretrained_weights":   "",
+        "batch_size":           16,
+        "learning_rate":        1e-4,
+        "nb_epochs":            400,
+        "warmup_epochs":        0,
+        "workers":              12,
+        "max_queue_size":       1024,
+        "early_stop":           false,
+        "tensorboard_log_dir":  "logs/",
+        "saved_weights_name":   "classifier.h5",
+        "debug":                true
+    },
+    "backup":{
+        "create_backup":        false,
+        "redirect_model":       false,
+        "backup_path":          "../backup",
+        "backup_prefix":        "Tiny_yolo_VOC"
+    }
+}

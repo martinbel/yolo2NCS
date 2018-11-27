@@ -1,0 +1,56 @@
+{
+    "model" : {
+        "backend":              "Darknet Reference",
+        "input_size_w":         256,
+        "input_size_h":         256,
+        "gray_mode":            true,
+        "anchors":              [0.3,1, 1,1.7, 2,5, 8,20, 11,27],
+        "max_box_per_image":    10,
+        "labels":               ["Person"]
+    },
+
+    "parser_annotation_type":    "xml",
+
+    "train": {
+        "train_csv_file":       "",
+        "train_csv_base_path":  "",
+        "train_image_folder":   "/mnt/yolo_retrain/openimages/person/train/",
+        "train_annot_folder":   "/mnt/yolo_retrain/openimages/opimg_annotations/train/",
+
+        "train_times":          1,
+        "pretrained_weights":   "",
+        "batch_size":           32,
+        "learning_rate":        1e-3,
+        "nb_epochs":            1000,
+        "warmup_epochs":        3,
+
+        "workers":              3,
+        "max_queue_size":       1000,
+        "early_stop":           false,
+        "tensorboard_log_dir":  "logs/",
+
+        "object_scale":         5.0 ,
+        "no_object_scale":      2.0,
+        "coord_scale":          2.0,
+        "class_scale":          1.0,
+
+        "saved_weights_name":   "openimages.h5",
+        "debug":                false
+    },
+
+    "valid": {
+        "valid_csv_file":       "",
+        "valid_csv_base_path":  "",
+        "valid_image_folder":   "",
+        "valid_annot_folder":   "",
+
+        "valid_times":          1
+    },
+
+    "backup":{
+        "create_backup":        false,
+        "redirect_model":       false,
+        "backup_path":          "../backup",
+        "backup_prefix":        "Tiny_yolo_VOC"
+    }
+}

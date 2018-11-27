@@ -2,7 +2,8 @@
 logs/*
 *.h5
 ncsmodel_old/*
-*.data-.*
+*.data*
+*ckpt*
 *ckpt.meta
 *ckpt.meta
 *.pb
