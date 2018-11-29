@@ -32,41 +32,64 @@ Basically you need to define the network in tensorflow, assign the weights and t
 Create a conda environment using the environment.yml file.
 
 ### 1) Change config
+
 `python gen_anchors.py -c config.json`
 
 ### 2) Train or fine-tune
+
 `python train.py -c config.json`
 
 ### 3) Take a look at how it works with a video.
+
 `python predict.py -c config.json -w ncs_darknetreference/openimages_best4.h5 -i videos/uba.mp4`
 
 ## NCS implementation
+
 Each model that is converted to NCS has a separate folder. For example see how ncs_darknetreference/ is structured
 
 ### 1) Use the model class in each folder to assign the weights to tensorflow graph
-This loads the weights from the ncs_darknetreference/config.json into the class DarknetReferenceNet.
+
+`python ncs_darknetreference/save_keras_graph.py`
+
+This script loads the weights from the ncs_darknetreference/config.json into the class DarknetReferenceNet.
+Read the class source code to understand the details but this is what is doing:
 The weights are extracted as numpy arrays and then assigned to the tensorflow graph.
 Batch norm is "fused" into the conv-net weights, this seems to be working ok.
 The process is quite akward but it's how I made it work.
 For some reason I couldn't simplify the process but feel free to make changes here.
-`python ncs_darknetreference/save_keras_graph.py`
+
 
 ### 2) Try model with keras predictions, see if this is correct
+
 `python ncs_darknetreference/predict_converted.py`
 
+
 ### 3) Freeze Graph
-Before freezing delete any previously generated models and ckpt in the folder.
-`freeze_graph --input_graph=ncs_darknetreference/NN.pb \
-           --input_binary=true \
-           --input_checkpoint=ncs_darknetreference/NN.ckpt \
-           --output_graph=ncs_darknetreference/frozen.pb \
+Before freezing the graph, delete any previously generated models and ckpt in the folder.
+
+`freeze_graph --input_graph=ncs_darknetreference/NN.pb
+           --input_binary=true
+           --input_checkpoint=ncs_darknetreference/NN.ckpt
+           --output_graph=ncs_darknetreference/frozen.pb
            --output_node_name=Output;`
 
 ### 4) Compile NCS in your dev environment, I've used docker.
-docker run -v /mnt/foo:/mnt/foo -i -t ncsdk
+
+docker run -v /mnt/yolo_retrain:/mnt/yolo_retrain -i -t ncsdk
+
 mvNCCompile -s 12 ncs_darknetreference/frozen.pb -in=Input -on=Output -o ncs_darknetreference/graph -is 256 256
+
 
 ### 5) After compiling the graph test it with a video
 I've installed the API in a virtualenv. This setup is just because I couldn't make everything work in docker.
+This step works in a raspberry pi also if you have all the required dependencies.
+
 `source /opt/movidius/virtualenv-python/bin/activate`
-`python ncs_darknetreference/ncs_predict.py`
+
+`python ncs_smallmdl/ncs_predict.py`
+
+
+## Relevant dependencies, see environment.yml for the rest
+
+tensorflow=1.9.0
+keras-gpu=2.1.5
